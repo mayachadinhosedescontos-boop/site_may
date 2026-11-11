@@ -1,0 +1,488 @@
+<DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAY - Achadinhos e Descontos | Grupo VIP</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Montserrat & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #070b14;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .font-heading {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Fundo moderno com textura geométrica sutil e luzes neon (azul e dourado da sua logo) */
+        .bg-custom {
+            background-color: #070b14;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 102, 255, 0.22) 0%, transparent 45%),
+                radial-gradient(circle at 85% 25%, rgba(245, 158, 11, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 50% 85%, rgba(37, 211, 102, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(255,255,255,0.02) 25%, transparent 25%),
+                linear-gradient(225deg, rgba(255,255,255,0.02) 25%, transparent 25%);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        /* Animação de pulso chamativa para o botão do WhatsApp */
+        @keyframes pulse-whatsapp {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7), 0 10px 25px -5px rgba(37, 211, 102, 0.5);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 0 14px rgba(37, 211, 102, 0), 0 15px 30px -5px rgba(37, 211, 102, 0.7);
+                transform: scale(1.025);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0), 0 10px 25px -5px rgba(37, 211, 102, 0.5);
+                transform: scale(1);
+            }
+        }
+
+        .btn-whatsapp-pulse {
+            animation: pulse-whatsapp 2.2s infinite;
+        }
+
+        /* Efeito de reflexo de luz (Shimmer) passando no botão principal */
+        @keyframes shimmer {
+            0% { transform: translateX(-150%) skewX(-20deg); }
+            50%, 100% { transform: translateX(250%) skewX(-20deg); }
+        }
+
+        .shimmer-effect::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 45%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.35) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: shimmer 3.5s infinite;
+        }
+
+        /* Animação suave para elementos flutuantes */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .float-slow {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Estilo Glassmorphism para botões secundários */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(30, 58, 138, 0.55);
+            border-color: rgba(96, 165, 250, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -4px rgba(0, 102, 255, 0.35);
+        }
+
+        /* Barra de progresso listrada animada */
+        @keyframes progress-stripes {
+            from { background-position: 1rem 0; }
+            to { background-position: 0 0; }
+        }
+
+        .animated-stripes {
+            background-image: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 1rem 1rem;
+            animation: progress-stripes 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-custom min-h-screen flex flex-col justify-between items-center py-6 px-4 relative select-none">
+
+    <!-- Notificação Pop-up Dinâmica (Prova Social em tempo real) -->
+    <div id="live-toast" class="fixed top-4 right-4 left-4 sm:left-auto sm:max-w-xs z-40 transform -translate-y-28 opacity-0 transition-all duration-500 pointer-events-none">
+        <div class="bg-slate-900/95 border border-emerald-500/50 rounded-2xl p-3 shadow-2xl flex items-center gap-3 backdrop-blur-md">
+            <div class="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+            </div>
+            <div class="text-xs leading-tight">
+                <p id="toast-name" class="font-bold text-white"> Juliana M. entrou no Grupo VIP</p>
+                <p id="toast-action" class="text-emerald-400 font-medium mt-0.5">🔥 Resgatou cupom de Frete Grátis</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container Principal (Mobile-First) -->
+    <main class="w-full max-w-md mx-auto flex flex-col items-center z-10 my-auto">
+
+        <!-- Badge Superior Ao Vivo -->
+        <div class="inline-flex items-center gap-2 bg-blue-950/80 border border-blue-500/40 rounded-full px-3.5 py-1.5 mb-5 shadow-lg backdrop-blur-sm">
+            <span class="relative flex h-2.5 w-2.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span class="text-xs font-semibold tracking-wide text-blue-100">
+                <strong class="text-amber-400">OFERTAS HOJE:</strong> Cupons liberados agora!
+            </span>
+        </div>
+
+        <!-- Foto de Perfil com Efeito Neon Azul & Ícone de Coração Original -->
+        <div class="relative mb-4 group cursor-pointer" onclick="toggleConfigModal()" title="Clique para trocar sua foto ou links">
+            <!-- Halo de brilho atrás da foto -->
+            <div class="absolute -inset-1.5 bg-gradient-to-tr from-blue-600 via-blue-400 to-amber-400 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
+            
+            <!-- Moldura Azul igual à sua identidade -->
+            <div class="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full p-1.5 bg-gradient-to-b from-blue-500 to-blue-700 shadow-2xl">
+                <img 
+                    id="profile-img"
+                    src="https://i.postimg.cc/PJy8Yphy/mayachadinhosedescontos.png" 
+                    onerror="this.src='https://placehold.co/300x300/0044cc/ffffff?text=MAY'"
+                    alt="May Achadinhos e Descontos" 
+                    class="w-full h-full object-cover rounded-full border-2 border-slate-950"
+                >
+            </div>
+
+            <!-- Coração Azul característico da sua imagem original -->
+            <div class="absolute bottom-1 left-1 w-9 h-9 rounded-full bg-blue-600 border-2 border-slate-900 flex items-center justify-center shadow-lg float-slow">
+                <i class="fa-solid fa-heart text-white text-sm"></i>
+            </div>
+
+            <!-- Selo Verificado / Desconto no lado direito -->
+            <div class="absolute bottom-1 right-1 bg-amber-400 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-full border-2 border-slate-900 shadow-lg uppercase">
+                VIP 🔥
+            </div>
+        </div>
+
+        <!-- Títulos e Headline Persuasiva -->
+        <div class="text-center mb-5 px-2">
+            <h1 class="font-heading text-3xl sm:text-4xl font-black tracking-wider text-white drop-shadow-[0_2px_10px_rgba(0,102,255,0.5)]">
+                MAY
+            </h1>
+            <h2 class="font-heading text-sm sm:text-base font-extrabold tracking-widest text-amber-400 uppercase mt-0.5">
+                ACHADINHOS E DESCONTOS
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-2.5 max-w-xs mx-auto leading-relaxed">
+                Economize até <span class="text-emerald-400 font-bold underline decoration-emerald-500/50">70% todos os dias</span> com nossos bugs, promoções relâmpago e cupons secretos! 👇
+            </p>
+        </div>
+
+        <!-- Mini-Ticker de Lojas Parceiras -->
+        <div class="flex flex-wrap justify-center gap-1.5 mb-5">
+            <span class="text-[11px] font-semibold bg-orange-500/15 text-orange-400 border border-orange-500/30 px-2.5 py-1 rounded-lg flex items-center gap-1">
+                <i class="fa-solid fa-bag-shopping"></i> Shopee
+            </span>
+            <span class="text-[11px] font-semibold bg-yellow-400/15 text-yellow-300 border border-yellow-400/30 px-2.5 py-1 rounded-lg flex items-center gap-1">
+                <i class="fa-solid fa-bolt"></i> Mercado Livre
+            </span>
+            <span class="text-[11px] font-semibold bg-blue-500/15 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg flex items-center gap-1">
+                <i class="fa-solid fa-tag"></i> Magalu
+            </span>
+            <span class="text-[11px] font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-lg flex items-center gap-1">
+                <i class="fa-brands fa-amazon"></i> Amazon
+            </span>
+        </div>
+
+        <!-- ======================================================= -->
+        <!-- CARD DE ALTA CONVERSÃO DO WHATSAPP (FOCO PRINCIPAL)     -->
+        <!-- ======================================================= -->
+        <div class="w-full bg-gradient-to-b from-slate-900/95 to-slate-950/95 border-2 border-emerald-500/60 rounded-3xl p-4 mb-6 shadow-[0_0_35px_rgba(16,185,129,0.2)] relative">
+            
+            <!-- Tag Flutuante no topo do card -->
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 text-[11px] font-extrabold uppercase px-3 py-0.5 rounded-full shadow-md whitespace-nowrap flex items-center gap-1">
+                <i class="fa-solid fa-fire-flame-curved"></i> Onde a mágica acontece (100% Grátis)
+            </div>
+
+            <!-- Barra de Escassez / Lotação do Grupo -->
+            <div class="mt-2 mb-3.5">
+                <div class="flex justify-between items-center text-xs mb-1.5">
+                    <span class="text-slate-300 font-medium flex items-center gap-1.5">
+                        <i class="fa-solid fa-users text-emerald-400"></i> Vagas no Grupo VIP:
+                    </span>
+                    <span class="text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded text-[11px]">
+                        92% Preenchido
+                    </span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
+                    <div class="h-full bg-gradient-to-r from-emerald-500 to-green-400 rounded-full animated-stripes" style="width: 92%"></div>
+                </div>
+            </div>
+
+            <!-- BOTÃO PRINCIPAL WHATSAPP -->
+            <a id="link-whatsapp" href="https://chat.whatsapp.com/FWOJyrLnSXO1bSVuSEXFXP" target="_blank" rel="noopener noreferrer" 
+               class="btn-whatsapp-pulse shimmer-effect relative overflow-hidden w-full bg-gradient-to-r from-[#16a34a] via-[#22c55e] to-[#15803d] hover:from-[#15803d] hover:to-[#166534] text-white rounded-2xl p-4 flex items-center justify-between shadow-xl transition-all duration-300 group cursor-pointer">
+                
+                <div class="flex items-center gap-3.5 z-10">
+                    <div class="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-inner shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-brands fa-whatsapp text-3xl text-white"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block font-heading font-black text-base sm:text-lg leading-tight tracking-wide text-white drop-shadow">
+                            ENTRAR NO GRUPO VIP
+                        </span>
+                        <span class="block text-[11px] sm:text-xs text-emerald-100 font-medium mt-0.5">
+                            👉 Toque aqui para receber as ofertas
+                        </span>
+                    </div>
+                </div>
+
+                <div class="w-8 h-8 rounded-full bg-black/20 flex items-center justify-center z-10 shrink-0 group-hover:translate-x-1 transition-transform">
+                    <i class="fa-solid fa-chevron-right text-sm"></i>
+                </div>
+            </a>
+
+            <!-- Garantias abaixo do botão -->
+            <div class="flex items-center justify-center gap-4 mt-3 text-[11px] text-slate-400">
+                <span class="flex items-center gap-1"><i class="fa-solid fa-lock text-emerald-400"></i> Grupo Silencioso</span>
+                <span>•</span>
+                <span class="flex items-center gap-1"><i class="fa-solid fa-circle-check text-emerald-400"></i> Só Admins Postam</span>
+            </div>
+        </div>
+
+        <!-- Divisor Secundário -->
+        <div class="w-full flex items-center gap-3 mb-4 px-2">
+            <div class="h-px bg-slate-800 flex-1"></div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Outros Links & Redes</span>
+            <div class="h-px bg-slate-800 flex-1"></div>
+        </div>
+
+        <!-- ======================================================= -->
+        <!-- BOTÕES SECUNDÁRIOS (Mantendo o Azul da sua marca)       -->
+        <!-- ======================================================= -->
+        <div class="w-full space-y-3">
+            
+            <!-- 1. Minha Coleção (Destaque secundário pois gera vendas diretas) -->
+            <a id="link-colecao" href="https://collshp.com/mayachadinhosedescontos" target="_blank" rel="noopener noreferrer"
+               class="glass-card w-full rounded-2xl p-3.5 flex items-center justify-between group">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 border border-blue-400/40 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block font-bold text-sm text-white group-hover:text-amber-300 transition-colors">
+                            MINHA COLEÇÃO DE ACHADINHOS
+                        </span>
+                        <span class="block text-[11px] text-slate-400">
+                            Veja os produtos mais pedidos dos vídeos
+                        </span>
+                    </div>
+                </div>
+                <span class="text-xs font-bold bg-blue-600/30 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-all">
+                    Ver Loja
+                </span>
+            </a>
+
+            <!-- 2. Instagram -->
+            <a id="link-instagram" href="https://www.instagram.com/mayachadinhosedescontos/" target="_blank" rel="noopener noreferrer"
+               class="glass-card w-full rounded-2xl p-3.5 flex items-center justify-between group">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 border border-blue-400/40 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-brands fa-instagram text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block font-bold text-sm text-white">
+                            INSTAGRAM OFICIAL
+                        </span>
+                        <span class="block text-[11px] text-slate-400">
+                            Stories diários com provador e dicas
+                        </span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 group-hover:text-white text-sm mr-2 transition-colors"></i>
+            </a>
+
+            <!-- 3. Facebook -->
+            <a id="link-facebook" href="https://www.facebook.com/profile.php?id=61580388838686" target="_blank" rel="noopener noreferrer"
+               class="glass-card w-full rounded-2xl p-3.5 flex items-center justify-between group">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 border border-blue-400/40 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-brands fa-facebook-f text-lg"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block font-bold text-sm text-white">
+                            PÁGINA NO FACEBOOK
+                        </span>
+                        <span class="block text-[11px] text-slate-400">
+                            Acompanhe nossas novidades por lá
+                        </span>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 group-hover:text-white text-sm mr-2 transition-colors"></i>
+            </a>
+
+        </div>
+
+    </main>
+
+    <!-- Rodapé e Botão de Personalização Fácil -->
+    <footer class="w-full max-w-md mx-auto text-center mt-8 pt-4 border-t border-slate-800/80 z-10">
+        <p class="text-[11px] text-slate-500">
+            © 2026 May Achadinhos e Descontos • Todos os direitos reservados.
+      
+    </footer>
+
+    <!-- ======================================================= -->
+    <!-- MODAL PARA A USUÁRIA COLAR OS LINKS REAIS DELA NA HORA  -->
+    <!-- ======================================================= -->
+    <div id="config-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-md w-full p-5 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-slate-800">
+                <h3 class="font-heading font-bold text-base text-white flex items-center gap-2">
+                    <i class="fa-solid fa-gear text-blue-400"></i> Configurar Sua Página
+                </h3>
+                <button onclick="toggleConfigModal()" class="text-slate-400 hover:text-white w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                Cole abaixo os links reais das suas redes e carregue a foto do seu computador para testar a página funcionando:
+            </p>
+
+            <div class="space-y-3 text-left">
+                <!-- Upload de Foto -->
+                <div>
+                    <label class="block text-xs font-semibold text-amber-400 mb-1">📸 Sua Foto de Perfil (escolha do celular/PC):</label>
+                    <input type="file" id="input-file-foto" accept="image/*" class="w-full text-xs text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 bg-slate-950 border border-slate-700 rounded-xl p-1.5">
+                </div>
+
+                <!-- Link WhatsApp -->
+                <div>
+                    <label class="block text-xs font-semibold text-emerald-400 mb-1">🟢 Link do Grupo VIP no WhatsApp:</label>
+                    <input type="url" id="input-whatsapp" placeholder="https://chat.whatsapp.com/FWOJyrLnSXO1bSVuSEXFXP" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 focus:outline-none">
+                </div>
+
+                <!-- Link Minha Coleção -->
+                <div>
+                    <label class="block text-xs font-semibold text-blue-400 mb-1">🛍️ Link da Minha Coleção (Shopee/etc):</label>
+                    <input type="url" id="input-colecao" placeholder="https://collshp.com/mayachadinhosedescontos" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-blue-500 focus:outline-none">
+                </div>
+
+                <!-- Link Instagram -->
+                <div>
+                    <label class="block text-xs font-semibold text-blue-400 mb-1">📸 Link do seu Instagram:</label>
+                    <input type="url" id="input-instagram" placeholder="https://www.instagram.com/mayachadinhosedescontos/" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-blue-500 focus:outline-none">
+                </div>
+
+                <!-- Link Facebook -->
+                <div>
+                    <label class="block text-xs font-semibold text-blue-400 mb-1">👍 Link do seu Facebook:</label>
+                    <input type="url" id="input-facebook" placeholder="https://www.facebook.com/profile.php?id=61580388838686" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-blue-500 focus:outline-none">
+                </div>
+            </div>
+
+            <div class="mt-5 flex gap-2">
+                <button onclick="saveCustomLinks()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-3 rounded-xl shadow-lg transition">
+                    Salvar e Visualizar Agora
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados simulados de prova social para gerar dinamismo e urgência
+        const notifications = [
+            { name: "Camila S. entrou no Grupo VIP", action: "🔥 Aproveitou Bug de R$ 19,90 na Shopee" },
+            { name: "Fernanda L. entrou no Grupo VIP", action: "⚡ Resgatou Cupom de 50% OFF" },
+            { name: "Mariana R. entrou no Grupo VIP", action: "🛍️ Comprou com Frete Grátis" },
+            { name: "Lucas T. entrou no Grupo VIP", action: "🔥 Pegou promoção no Mercado Livre" },
+            { name: "Patrícia A. entrou no Grupo VIP", action: "🎉 Economizou R$ 85,00 agora mesmo" }
+        ];
+
+        let currentNotifyIndex = 0;
+        const toastEl = document.getElementById('live-toast');
+        const toastNameEl = document.getElementById('toast-name');
+        const toastActionEl = document.getElementById('toast-action');
+
+        function showSocialProof() {
+            const item = notifications[currentNotifyIndex];
+            toastNameEl.textContent = item.name;
+            toastActionEl.textContent = item.action;
+
+            // Mostrar notificação
+            toastEl.classList.remove('-translate-y-28', 'opacity-0');
+            toastEl.classList.add('translate-y-0', 'opacity-100');
+
+            // Esconder após 4 segundos
+            setTimeout(() => {
+                toastEl.classList.remove('translate-y-0', 'opacity-100');
+                toastEl.classList.add('-translate-y-28', 'opacity-0');
+            }, 4000);
+
+            currentNotifyIndex = (currentNotifyIndex + 1) % notifications.length;
+        }
+
+        // Inicia o ciclo de notificações a cada 9 segundos
+        setTimeout(() => {
+            showSocialProof();
+            setInterval(showSocialProof, 9500);
+        }, 2500);
+
+        // Modal de Configuração Fácil
+        function toggleConfigModal() {
+            const modal = document.getElementById('config-modal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        // Upload instantâneo da foto da usuária (ex: o print que ela enviou)
+        document.getElementById('input-file-foto').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-img').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Atualizar os links nos botões
+        function saveCustomLinks() {
+            const wpp = document.getElementById('input-whatsapp').value.trim();
+            const col = document.getElementById('input-colecao').value.trim();
+            const insta = document.getElementById('input-instagram').value.trim();
+            const fb = document.getElementById('input-facebook').value.trim();
+
+            if (wpp) document.getElementById('link-whatsapp').href = wpp;
+            if (col) document.getElementById('link-colecao').href = col;
+            if (insta) document.getElementById('link-instagram').href = insta;
+            if (fb) document.getElementById('link-facebook').href = fb;
+
+            toggleConfigModal();
+        }
+    </script>
+</body>
+</html>
